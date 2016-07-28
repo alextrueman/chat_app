@@ -43,6 +43,7 @@ class Api::V1::ChatsController < ApplicationController
   end
 
   def chat_params
+    params[:users_id].push(@user.id).uniq
     params.permit(:name, users_id: [])
   end
 

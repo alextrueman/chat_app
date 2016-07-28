@@ -13,7 +13,7 @@ class User < ActiveRecord::Base
   end
 
   def unreaded_messages
-    Chat.all.where('users_id @> ARRAY[?]::varchar[]', ["#{self.id.to_s}"]).to_a.map { |c| c.messages.find { |message| self.status.find_by(chat_id: c.id).last_readed < message.id }  }
+    Chat.all.where('users_id @> ARRAY[?]::varchar[]', ["#{self.id.to_s}"]).to_a.map { |c| c.messages.select { |message| self.status.find_by(chat_id: c.id).last_readed < message.id }  }.flatten
   end
 
   private
